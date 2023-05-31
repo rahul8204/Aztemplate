@@ -352,7 +352,7 @@
                 "osProfile": {
                     "computerName": "[parameters('virtualMachines_name')]",
                     "adminUsername": "adminrahul",
-                    "adminpassword": "[variables('ingressmessage')]"
+                    "adminpassword": "[variables('ingressmessage')]",
                     "windowsConfiguration": {
                         "provisionVMAgent": true,
                         "enableAutomaticUpdates": false,
