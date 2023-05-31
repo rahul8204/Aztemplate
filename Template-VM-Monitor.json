@@ -44,7 +44,7 @@
         }
     },
     "variables": {
-        "ingressmessage": "WelcometoSpirit!",
+        "ingressmessage": "WelcometoSpirit!"
     },
     "resources": [
         {
