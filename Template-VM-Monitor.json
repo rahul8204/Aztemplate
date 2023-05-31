@@ -104,7 +104,7 @@
                 "subnets": [
                     {
                         "name": "[parameters('subnet_name')]",
-                        "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_name'), parameters('subnet_name')]",
+                        "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_name'), parameters('subnet_name'))]",
                         "properties": {
                             "addressPrefix": "10.0.0.0/24",
                             "delegations": [],
