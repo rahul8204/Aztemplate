@@ -2,18 +2,6 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "extensions_Microsoft_Insights_VMDiagnosticsSettings_xmlCfg": {
-            "type": "SecureString"
-        },
-        "extensions_Microsoft_Insights_VMDiagnosticsSettings_storageAccountName": {
-            "type": "SecureString"
-        },
-        "extensions_Microsoft_Insights_VMDiagnosticsSettings_storageAccountKey": {
-            "type": "SecureString"
-        },
-        "extensions_Microsoft_Insights_VMDiagnosticsSettings_storageAccountEndPoint": {
-            "type": "SecureString"
-        },
         "virtualMachines_name": {
             "defaultValue": "spiritvm",
             "type": "String"
@@ -165,33 +153,6 @@
                         }
                     },
                     "keySource": "Microsoft.Storage"
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Compute/virtualMachines/extensions",
-            "apiVersion": "2023-03-01",
-            "name": "[concat(parameters('virtualMachines_name'), '/Microsoft.Insights.VMDiagnosticsSettings')]",
-            "location": "centralindia",
-            "dependsOn": [
-                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_name'))]"
-            ],
-            "tags": {
-                "resourcerg": "[resourcegroup().name]"
-            },
-            "properties": {
-                "autoUpgradeMinorVersion": true,
-                "publisher": "Microsoft.Azure.Diagnostics",
-                "type": "IaaSDiagnostics",
-                "typeHandlerVersion": "1.5",
-                "settings": {
-                    "StorageAccount": "[parameters('storageAccounts_name')]",
-                    "xmlCfg": "[parameters('extensions_Microsoft_Insights_VMDiagnosticsSettings_xmlCfg')]"
-                },
-                "protectedSettings": {
-                    "storageAccountName": "[parameters('extensions_Microsoft_Insights_VMDiagnosticsSettings_storageAccountName')]",
-                    "storageAccountKey": "[parameters('extensions_Microsoft_Insights_VMDiagnosticsSettings_storageAccountKey')]",
-                    "storageAccountEndPoint": "[parameters('extensions_Microsoft_Insights_VMDiagnosticsSettings_storageAccountEndPoint')]"
                 }
             }
         },
@@ -384,73 +345,6 @@
                     }
                 }
             }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-            "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_name'), '/default/bootdiagnostics-b0556374-bfbe-4edc-a89e-523718e5d38f')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
-            ],
-            "properties": {
-                "immutableStorageWithVersioning": {
-                    "enabled": false
-                },
-                "defaultEncryptionScope": "$account-encryption-key",
-                "denyEncryptionScopeOverride": false,
-                "publicAccess": "None"
-            }
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/tableServices/tables",
-            "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_name'), '/default/SchemasTable')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/tableServices', parameters('storageAccounts_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
-            ],
-            "properties": {}
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/tableServices/tables",
-            "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_name'), '/default/WADDiagnosticInfrastructureLogsTable')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/tableServices', parameters('storageAccounts_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
-            ],
-            "properties": {}
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/tableServices/tables",
-            "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_name'), '/default/WADMetricsPT1MP10DV2S20230529')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/tableServices', parameters('storageAccounts_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
-            ],
-            "properties": {}
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/tableServices/tables",
-            "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_name'), '/default/WADPerformanceCountersTable')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/tableServices', parameters('storageAccounts_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
-            ],
-            "properties": {}
-        },
-        {
-            "type": "Microsoft.Storage/storageAccounts/tableServices/tables",
-            "apiVersion": "2022-09-01",
-            "name": "[concat(parameters('storageAccounts_name'), '/default/WADWindowsEventLogsTable')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/tableServices', parameters('storageAccounts_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
-            ],
-            "properties": {}
         },
         {
             "type": "Microsoft.Network/networkInterfaces",
