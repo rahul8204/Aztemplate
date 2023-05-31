@@ -1,6 +1,6 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
+    "contentVersion": "1.0.0.1",
     "parameters": {
         "virtualMachines_name": {
             "defaultValue": "spiritvm",
@@ -294,13 +294,12 @@
                     "dataDisks": [
                         {
                             "lun": 0,
-                            "name": "[concat(parameters('virtualMachines_name'), '_DataDisk_0')]",
-                            "createOption": "Attach",
+                            "name": "[concat(parameters('virtualMachines_name'), '_DataDisk')]",
+                            "createOption": "empty",
                             "caching": "None",
                             "writeAcceleratorEnabled": false,
                             "managedDisk": {
-                                "storageAccountType": "Premium_LRS",
-                                "id": "[resourceId('Microsoft.Compute/disks', concat(parameters('virtualMachines_name'), '_DataDisk_0'))]"
+                                "storageAccountType": "Standard_LRS"
                             },
                             "deleteOption": "Delete",
                             "diskSizeGB": 16,
@@ -324,8 +323,7 @@
                         "enableVMAgentPlatformUpdates": false
                     },
                     "secrets": [],
-                    "allowExtensionOperations": true,
-                    "requireGuestProvisionSignal": true
+                    "allowExtensionOperations": true
                 },
                 "networkProfile": {
                     "networkInterfaces": [
