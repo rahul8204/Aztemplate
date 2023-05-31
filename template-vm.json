@@ -1,30 +1,34 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
+    "contentVersion": "1.0.0.1",
     "parameters": {
         "virtualMachines_name": {
-            "defaultValue": "stargatevm",
+            "defaultValue": "skyfallvm",
             "type": "String"
         },
         "virtualNetworks_name": {
-            "defaultValue": "stargatevnet",
+            "defaultValue": "skyfallvnet",
             "type": "String"
         },
         "networkInterfaces_name": {
-            "defaultValue": "stargatenic",
+            "defaultValue": "skyfallnic",
             "type": "String"
         },
         "publicIPAddresses_name": {
-            "defaultValue": "stargatepip",
+            "defaultValue": "skyfallpip",
             "type": "String"
         },
         "networkSecurityGroups_name": {
-            "defaultValue": "stargatensg",
+            "defaultValue": "skyfallnsg",
             "type": "String"
+        },
+        "subnet_name": {
+            "defaultValue": "skyfallsubnet",
+            "type": "string"
         }
     },
     "variables": {
-        "tagvalue" : "stargateRG",
+        "tagvalue" : "[resourcegroup().name]",
         "ingressvalue" : "WelcometoStargate!"
     },
     "resources": [
@@ -96,8 +100,8 @@
                 },
                 "subnets": [
                     {
-                        "name": "stargatesubnet",
-                        "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_name'), 'stargatesubnet')]",
+                        "name": "[parameters('subnet_name')]",
+                        "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_name'), parameters('subnet_name'))]",
                         "properties": {
                             "addressPrefix": "10.0.0.0/24",
                             "delegations": [],
@@ -206,7 +210,7 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2022-11-01",
-            "name": "[concat(parameters('virtualNetworks_name'), '/stargatesubnet')]",
+            "name": "[concat(parameters('virtualNetworks_name'), '/', sparameters('subnet_name'))]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_name'))]"
             ],
@@ -224,7 +228,7 @@
             "location": "centralindia",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_name'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_name'), 'stargatesubnet')]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_name'), parameters('subnet_name'))]",
                 "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_name'))]"
             ],
             "tags": {
@@ -243,7 +247,7 @@
                             "privateIPAddress": "",
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIPAddress": {
-                                "name": "stargatepip",
+                                "name": "[parameters('publicIPAddresses_name')]",
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_name'))]",
                                 "properties": {
                                     "provisioningState": "Succeeded",
@@ -263,7 +267,7 @@
                                 }
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_name'), 'stargatesubnet')]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_name'), parameters('subnet_name'))]"
                             },
                             "primary": true,
                             "privateIPAddressVersion": "IPv4"
