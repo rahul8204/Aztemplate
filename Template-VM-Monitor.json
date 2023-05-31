@@ -282,12 +282,11 @@
                     },
                     "osDisk": {
                         "osType": "Windows",
-                        "name": "[concat(parameters('virtualMachines_name'), '_OsDisk_1_de244bcb17c74a4baba7c6d77836fdbc')]",
+                        "name": "[concat(parameters('virtualMachines_name'), '_OsDisk')]",
                         "createOption": "FromImage",
                         "caching": "ReadWrite",
                         "managedDisk": {
-                            "storageAccountType": "Standard_LRS",
-                            "id": "[resourceId('Microsoft.Compute/disks', concat(parameters('virtualMachines_name'), '_OsDisk_1_de244bcb17c74a4baba7c6d77836fdbc'))]"
+                            "storageAccountType": "Standard_LRS"
                         },
                         "deleteOption": "Delete",
                         "diskSizeGB": 127
